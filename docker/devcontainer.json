@@ -1,0 +1,36 @@
+{
+	"name": "kaggle-docker-updated",
+	"dockerFile": "Dockerfile",
+	"runArgs": [
+		"--privileged",
+		"--net=host",
+		"--gpus=all",
+		"--volume=/tmp/.X11-unix:/tmp/.X11-unix",
+                "--volume=${localEnv:HOME}/.kaggle:/home/kaggle/.kaggle",
+		"--env=NOTEBOOK_DISABLE_ROOT=1",
+		"--env=DISPLAY=${DISPLAY}",
+		"--shm-size=1g"
+	],
+	"build": {
+		"args": {
+			"USER_NAME" : "kaggle",
+			"USER_UID" : "${localEnv:UID}"
+		}
+	},
+	"remoteEnv": {
+		"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}"
+	},
+	"workspaceMount": "source=${localWorkspaceFolder},target=/kaggle,type=bind,consistency=cached",
+	"workspaceFolder": "/kaggle/working",
+	"containerUser": "kaggle",
+	"settings": { 
+		"terminal.integrated.shell.linux": "/bin/bash"
+	},
+	"extensions": [
+		"ms-azuretools.vscode-docker",
+		"ms-python.python",
+		"ms-vscode.cpptools",
+		"twxs.cmake"
+	],	
+	"forwardPorts": [8888],
+}
